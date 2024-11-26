@@ -1,7 +1,10 @@
 ##############################################################################
 ##                                Base Image                                ##
 ##############################################################################
-ARG RENDER=nvidia
+
+#nvidia, wenn NVIDIA-Grafik bzw. base, wenn nicht
+ARG RENDER=base 
+
 FROM python:3.12.7 as python
 USER root
 ENV TZ=Europe/Berlin
@@ -49,14 +52,14 @@ ARG PASSWORD=automaton
 ARG UID=1000
 ARG GID=1000
 ENV USER=$USER
-RUN groupadd -g $GID $USER \
-    && useradd -m -u $UID -g $GID -p "$(openssl passwd -1 $PASSWORD)" \
-    --shell $(which bash) $USER -G sudo
-RUN echo "%sudo ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/sudogrp
-RUN usermod -a -G video $USER
-USER $USER
-RUN mkdir -p /home/$USER/workspace/src
-RUN mkdir -p /home/$USER/data
+# RUN groupadd -g $GID $USER \
+#    && useradd -m -u $UID -g $GID -p "$(openssl passwd -1 $PASSWORD)" \
+#    --shell $(which bash) $USER -G sudo
+# RUN echo "%sudo ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/sudogrp
+# RUN usermod -a -G video $USER
+# USER $USER
+# RUN mkdir -p /home/$USER/workspace/src
+# RUN mkdir -p /home/$USER/data
 
 ##############################################################################
 ##                               Dependencies                               ##
